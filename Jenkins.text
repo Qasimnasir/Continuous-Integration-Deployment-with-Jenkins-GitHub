@@ -1,50 +1,56 @@
 pipeline {
-agent any
-stages {
-stage('Build') {
-steps {
-echo 'Building the code...' // Example: sh 'mvn clean install' for Maven builds
-}
-}
-stage('Unit and Integration Tests') {
-steps {
-echo 'Running unit and integration tests...' // Example: sh 'mvn test' or 'pytest' for Python
-}
-}
-stage('Code Analysis') {
-steps {
-echo 'Running code analysis...' // Example: sh 'sonar-scanner' to use SonarQube for code analysis
-}
-}
-stage('Security Scan') {
-steps {
-echo 'Running security scan...' // Example: Use OWASP Dependency Check, run with 'dependency-check --scan .' }
-}
-stage('Deploy to Staging') {
-steps {
-echo 'Deploying to staging server...' // Example: Deploy to AWS EC2 or use Docker Compose
-}
-}
-stage('Integration Tests on Staging') {
-steps {
-echo 'Running integration tests on staging...' // Example: Running integration tests
-}
-}
-stage('Deploy to Production') {
-steps {
-echo 'Deploying to production server...' // Deploy to production environment, e.g., AWS or Kubernetes
-
-}
-}
-}
-post {
-success {
-sleep 5 // Delay of 5 seconds
-emailext subject: "Pipeline Success", body: "The pipeline has completed successfully.", to: "qasimnasir33@gmail.com"
-}
-failure {
-sleep 5 // Delay of 5 seconds
-emailext subject: "Pipeline Failed", body: "The pipeline has failed. Please check the logs for details.", to: "qasimnasir33@gmail.com"
-}
-}
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the code...' // For example, use 'sh "mvn clean install"' for Maven builds, or 'sh "npm install"' for Node.js builds
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit and integration tests...' // For example, 'sh "mvn test"' for Java, 'pytest' for Python, or 'npm test' for Node.js
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                echo 'Running code analysis...' // For example, use 'sh "sonar-scanner"' with SonarQube for static code analysis
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                echo 'Running security scan...' // For example, 'sh "dependency-check --scan ."' for OWASP Dependency Check
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying to staging server...' // For example, deploy using AWS EC2, Docker Compose, or Kubernetes in a staging environment
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on staging...' // For example, run post-deployment integration tests to verify staging environment
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying to productionGIT server...' // For example, deploy to production environment using AWS, Kubernetes, or any other production setup
+            }
+        }
+    }
+    post {
+        success {
+            // sleep 5 
+            //Delay of 5 seconds after pipeline success
+            emailext subject: "Pipeline Success", 
+                     body: "The pipeline has completed successfully.", 
+                     to: "qasimnasir33@gmail.com" // Send success email notification
+        }
+        failure {
+            //sleep 5 
+            // Delay of 5 seconds after pipeline failure
+            emailext subject: "Pipeline Failed", 
+                     body: "The pipeline has failed. Please check the logs for details.", 
+                     to: "qasimnasir33@gmail.com" // Send failure email notification
+        }
+    }
 }
